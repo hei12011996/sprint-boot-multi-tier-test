@@ -11,7 +11,7 @@
 
     When POST to /parkingboys
     
-    Then it should return 400 (Bad Request)
+    Then it should return status code 400 (Bad Request)
     
 3.  When GET to /parkingboys
     
