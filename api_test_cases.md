@@ -15,7 +15,7 @@
     
     with location in response header as "/parkingboys/{employeeID}"
 
-2. Given a ParkingBoy: {"employeeID": string} which "employeeID" is repeated with the record in server
+2. Given a ParkingBoy: {"employeeID": string} which "employeeID" is repeated with other record in server
 
     When POST to /parkingboys
     
