@@ -30,7 +30,7 @@ public class ParkingBoyResource {
 
     @PostMapping
     public ResponseEntity<ParkingBoyResponse> add(@RequestBody ParkingBoy parkingBoy) {
-        if(parkingBoyRepository.findByEmployeeId(parkingBoy.getEmployeeId()) != null){
+        if((!parkingBoy.isValid()) || (parkingBoyRepository.findByEmployeeId(parkingBoy.getEmployeeId()) != null)){
             return ResponseEntity.badRequest().build();
         }
         final ParkingBoy savedParkingBoy = parkingBoyRepository.saveAndFlush(parkingBoy);

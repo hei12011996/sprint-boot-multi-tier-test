@@ -1,5 +1,7 @@
 package com.oocl.web.sampleWebApp.domain;
 
+import org.springframework.util.StringUtils;
+
 import javax.persistence.*;
 
 @Entity
@@ -28,6 +30,10 @@ public class ParkingBoy {
 
     public ParkingBoy(String employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public boolean isValid() {
+        return !StringUtils.isEmpty(employeeId);
     }
 }
 
