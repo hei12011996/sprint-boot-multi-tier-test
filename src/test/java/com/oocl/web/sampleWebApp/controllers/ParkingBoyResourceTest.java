@@ -329,4 +329,37 @@ public class ParkingBoyResourceTest {
         // Then
         assertEquals(400, result.getResponse().getStatus());
     }
+
+    @Test
+    public void should_get_parking_boy_by_its_id() throws Exception {
+        // Given
+        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 15"));
+        final Long pbId = boy.getId();
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get("/parkingboys/" + pbId))
+                .andReturn();
+
+        // Then
+        assertEquals(200, result.getResponse().getStatus());
+
+        final ParkingBoyResponse parkingBoy = getContentAsObject(result, ParkingBoyResponse.class);
+
+        assertEquals("TEST CASE 15", parkingBoy.getEmployeeId());
+    }
+
+    @Test
+    public void should_not_get_parking_boy_by_non_existing_id() throws Exception {
+        // Given
+        final Long pbId = 0L;
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get("/parkingboys/" + pbId))
+                .andReturn();
+
+        // Then
+        assertEquals(404, result.getResponse().getStatus());
+    }
 }

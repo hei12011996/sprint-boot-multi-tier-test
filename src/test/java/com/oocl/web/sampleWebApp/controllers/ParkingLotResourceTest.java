@@ -254,4 +254,39 @@ public class ParkingLotResourceTest {
 
         assertEquals(0, parkingLots.size());
     }
+
+    @Test
+    public void should_get_parking_lot_by_its_id() throws Exception {
+        // Given
+        final ParkingLot lot = parkingLotRepository.save(new ParkingLot("TEST CASE 11", 11));
+        final Long plId = lot.getId();
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get("/parkinglots/" + plId))
+                .andReturn();
+
+        // Then
+        assertEquals(200, result.getResponse().getStatus());
+
+        final ParkingLotResponse parkingLot = getContentAsObject(result, ParkingLotResponse.class);
+
+        assertEquals("TEST CASE 11", parkingLot.getParkingLotId());
+        assertEquals(new Integer(11), parkingLot.getCapacity());
+        assertEquals(new Integer(11), parkingLot.getAvailablePositionCount());
+    }
+
+    @Test
+    public void should_not_get_parking_lot_by_non_existing_id() throws Exception {
+        // Given
+        final Long plId = 0L;
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get("/parkinglots/" + plId))
+                .andReturn();
+
+        // Then
+        assertEquals(404, result.getResponse().getStatus());
+    }
 }
