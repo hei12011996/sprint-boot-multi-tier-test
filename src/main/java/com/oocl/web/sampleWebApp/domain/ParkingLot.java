@@ -68,7 +68,7 @@ public class ParkingLot {
     }
 
     public Boolean isValid(){
-        return !StringUtils.isEmpty(parkingLotId) && capacity != null && capacity >= 1 && capacity <= 100;
+        return !StringUtils.isEmpty(parkingLotId) && parkingLotId.length() < 65 && capacity != null && capacity >= 1 && capacity <= 100;
     }
 }
 
