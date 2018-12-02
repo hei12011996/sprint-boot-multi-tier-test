@@ -118,3 +118,38 @@
     
     * not save the given parking lot
     * return status code 400 (Bad Request)
+
+### Test Case(s) for GET /parkingboys/{pbId}/parkinglots
+1.  Given: A ParkingBoy id "pbId": "number" which "pbId" can be referenced to the id of an existing record of parking boy in the server
+
+    When: GET to /parkingboys/{pbId}/parkinglots
+    
+    Then: It should return status code 200 (OK) with the "employeeId" of that parking boy and a list containing the "parkingLotId"s of all parking lots under that parking boy management
+    ```JSON
+    {"employeeId": "string", "associatedParkingLots": [{"parkingLotId": "string"}]}
+    ```
+
+2.  Given: A ParkingBoy id "pbId": "number" which "pbId" does not exist for a id of a parking boy in the server
+
+    When: GET to /parkingboys/{pbId}/parkinglots
+    
+    Then: It should return status code 404 (Not found)
+
+### Test Case(s) for POST /parkingboys/{pbId}/parkinglots/{plId}
+1.  Given: A ParkingBoy id "pbId": "number" and a ParkingLot id "plId": "number"
+
+    When: POST to /parkingboys/{pbId}/parkinglots/{plId}
+    
+    Then: It should return status code 201 (Created)
+
+2.  Given: A ParkingBoy id "pbId": "number" and a ParkingLot id "plId": "number" where "pbId" does not exist for a id of a parking boy in the server
+
+    When: POST to /parkingboys/{pbId}/parkinglots/{plId}
+    
+    Then: It should return status code 400 (Bad Request)
+
+3.  Given: A ParkingBoy id "pbId": "number" and a ParkingLot id "plId": "number" where "plId" does not exist for a id of a parking lot in the server
+
+    When: POST to /parkingboys/{pbId}/parkinglots/{plId}
+    
+    Then: It should return status code 400 (Bad Request)
