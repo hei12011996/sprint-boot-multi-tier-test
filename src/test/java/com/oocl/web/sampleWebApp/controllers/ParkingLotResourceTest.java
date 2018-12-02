@@ -129,7 +129,7 @@ public class ParkingLotResourceTest {
     }
 
     @Test
-    public void should_not_save_parking_lot_given_a_parking_lot_with_duplicated_employeeID_in_server() throws Exception {
+    public void should_not_save_parking_lot_given_a_parking_lot_with_duplicated_parking_lot_id_in_server() throws Exception {
         // Given
         parkingLotRepository.save(new ParkingLot("TEST CASE 5", 100));
         final ParkingLot parkingLot = new ParkingLot("TEST CASE 5", 100);
@@ -151,9 +151,53 @@ public class ParkingLotResourceTest {
     }
 
     @Test
+    public void should_save_parking_lot_given_a_parking_lot_with_parking_lot_ID_length_exactly_equals_to_64() throws Exception {
+        // Given
+        final ParkingLot parkingLot = new ParkingLot("TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 !!!", 100);
+        final String parkingLotJSONString = toJSON(parkingLot);
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONString))
+                .andReturn();
+
+        // Then
+        final String location = result.getResponse().getHeader("location");
+        final Long id = parseIdFromLocation(location, "/parkinglots/");
+
+        assertEquals(201, result.getResponse().getStatus());
+        assertTrue(location.contains("/parkinglots/"));
+
+        final ParkingLot parkingLotRecord = parkingLotRepository.findById(id).get();
+
+        assertEquals("TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 !!!", parkingLotRecord.getParkingLotId());
+        assertEquals(new Integer(100), parkingLotRecord.getCapacity());
+        assertEquals(new Integer(100), parkingLotRecord.getAvailablePositionCount());
+    }
+
+    @Test
+    public void should_not_save_parking_lot_given_a_parking_lot_with_parking_lot_id_length_longer_than_64() throws Exception {
+        // Given
+        final ParkingLot parkingLot = new ParkingLot("TEST CASE 7 TEST CASE 7 TEST CASE 7 TEST CASE 7 TEST CASE 7 TEST CASE 7 TEST CASE 7 TEST CASE 7 TEST CASE 7 TEST CASE 7", 100);
+        final String parkingLotJSONString = toJSON(parkingLot);
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONString))
+                .andReturn();
+
+        // Then
+        assertEquals(400, result.getResponse().getStatus());
+    }
+
+    @Test
     public void should_not_save_parking_lot_given_a_parking_lot_with_capacity_smaller_than_1() throws Exception {
         // Given
-        final ParkingLot parkingLot = new ParkingLot("TEST CASE 6", 0);
+        final ParkingLot parkingLot = new ParkingLot("TEST CASE 8", 0);
         final String parkingLotJSONString = toJSON(parkingLot);
 
         // When
@@ -174,7 +218,7 @@ public class ParkingLotResourceTest {
     @Test
     public void should_not_save_parking_lot_given_a_parking_lot_with_capacity_larger_than_100() throws Exception {
         // Given
-        final ParkingLot parkingLot = new ParkingLot("TEST CASE 7", 500);
+        final ParkingLot parkingLot = new ParkingLot("TEST CASE 9", 500);
         final String parkingLotJSONString = toJSON(parkingLot);
 
         // When
@@ -195,7 +239,7 @@ public class ParkingLotResourceTest {
     @Test
     public void should_not_save_parking_lot_given_a_parking_lot_with_capacity_is_null() throws Exception {
         // Given
-        final ParkingLot parkingLot = new ParkingLot("TEST CASE 8", null);
+        final ParkingLot parkingLot = new ParkingLot("TEST CASE 10", null);
         final String parkingLotJSONString = toJSON(parkingLot);
 
         // When
@@ -258,7 +302,7 @@ public class ParkingLotResourceTest {
     @Test
     public void should_get_parking_lot_by_its_id() throws Exception {
         // Given
-        final ParkingLot lot = parkingLotRepository.save(new ParkingLot("TEST CASE 11", 11));
+        final ParkingLot lot = parkingLotRepository.save(new ParkingLot("TEST CASE 13", 11));
         final Long plId = lot.getId();
 
         // When
@@ -271,7 +315,7 @@ public class ParkingLotResourceTest {
 
         final ParkingLotResponse parkingLot = getContentAsObject(result, ParkingLotResponse.class);
 
-        assertEquals("TEST CASE 11", parkingLot.getParkingLotId());
+        assertEquals("TEST CASE 13", parkingLot.getParkingLotId());
         assertEquals(new Integer(11), parkingLot.getCapacity());
         assertEquals(new Integer(11), parkingLot.getAvailablePositionCount());
     }
