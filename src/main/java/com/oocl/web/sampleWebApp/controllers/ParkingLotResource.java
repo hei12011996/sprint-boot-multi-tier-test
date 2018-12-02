@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/parkinglots")
@@ -27,6 +28,16 @@ public class ParkingLotResource {
                 .map(ParkingLotResponse::create)
                 .toArray(ParkingLotResponse[]::new);
         return ResponseEntity.ok(parkingLots);
+    }
+
+    @GetMapping(path = "/{plId}")
+    public ResponseEntity<ParkingLotResponse> get(@PathVariable Long plId) {
+        final Optional<ParkingLot> parkingLotRecord = parkingLotRepository.findById(plId);
+        if(!parkingLotRecord.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        final ParkingLotResponse parkingBoy = ParkingLotResponse.create(parkingLotRecord.get());
+        return ResponseEntity.ok(parkingBoy);
     }
 
     @PostMapping
