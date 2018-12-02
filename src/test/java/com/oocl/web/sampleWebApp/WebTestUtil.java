@@ -2,6 +2,7 @@ package com.oocl.web.sampleWebApp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oocl.web.sampleWebApp.domain.ParkingBoy;
+import com.oocl.web.sampleWebApp.domain.ParkingLot;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
@@ -22,5 +23,12 @@ public class WebTestUtil {
 
     public static String toJSON(ParkingBoy parkingBoy){
         return "{\"employeeId\": " + "\"" + parkingBoy.getEmployeeId() + "\"" + "}";
+    }
+
+    public static String toJSON(ParkingLot parkingLot){
+        return "{" +
+                "\"parkingLotId\": " + "\"" + parkingLot.getParkingLotId() + "\"," +
+                "\"capacity\": " + parkingLot.getCapacity()+
+                "}";
     }
 }

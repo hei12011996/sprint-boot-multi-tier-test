@@ -1,13 +1,12 @@
 package com.oocl.web.sampleWebApp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.oocl.web.sampleWebApp.domain.ParkingBoy;
 import com.oocl.web.sampleWebApp.domain.ParkingLot;
 
 import java.util.Objects;
 
 public class ParkingLotResponse {
-    private String parkingLotID;
+    private String parkingLotId;
     private Integer capacity;
     private Integer availablePositionCount;
 
@@ -17,7 +16,7 @@ public class ParkingLotResponse {
         Objects.requireNonNull(availablePositionCount);
 
         final ParkingLotResponse response = new ParkingLotResponse();
-        response.setParkingLotID(parkingLotID);
+        response.setParkingLotId(parkingLotID);
         response.setCapacity(capacity);
         response.setAvailablePositionCount(availablePositionCount);
         return response;
@@ -29,11 +28,11 @@ public class ParkingLotResponse {
 
     @JsonIgnore
     public boolean isValid() {
-        return parkingLotID != null && capacity != null && availablePositionCount != null;
+        return parkingLotId != null && capacity != null && availablePositionCount != null;
     }
 
-    public String getParkingLotID() {
-        return parkingLotID;
+    public String getParkingLotId() {
+        return parkingLotId;
     }
 
     public Integer getCapacity() {
@@ -44,8 +43,8 @@ public class ParkingLotResponse {
         return availablePositionCount;
     }
 
-    public void setParkingLotID(String parkingLotID) {
-        this.parkingLotID = parkingLotID;
+    public void setParkingLotId(String parkingLotId) {
+        this.parkingLotId = parkingLotId;
     }
 
     public void setCapacity(Integer capacity) {
