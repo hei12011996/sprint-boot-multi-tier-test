@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/parkingboys")
@@ -42,14 +43,26 @@ public class ParkingBoyResource {
         return ResponseEntity.created(URI.create("/parkingboys/" + savedParkingBoy.getId())).build();
     }
 
+    @GetMapping(path = "/{pbId}/parkinglots")
+    public ResponseEntity<ParkingBoyParkingLotsAssociationResponse> getParkingLotsAssociation(@PathVariable Long pbId) {
+        if(!parkingBoyRepository.findById(pbId).isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        final ParkingBoy parkingBoy = parkingBoyRepository.findById(pbId).get();
+        final List<ParkingLot> associatedParkingLots = parkingLotRepository.findByParkingBoyId(pbId);
+
+        final ParkingBoyParkingLotsAssociationResponse associationResponse = ParkingBoyParkingLotsAssociationResponse.create(parkingBoy, associatedParkingLots);
+        return ResponseEntity.ok(associationResponse);
+    }
+
     @PostMapping(path = "/{pbId}/parkinglots/{plId}")
-    public ResponseEntity<ParkingBoyResponse> associateParkingLot(@PathVariable Long pbId, @PathVariable Long plId) {
+    public ResponseEntity<ParkingBoyParkingLotsAssociationResponse> associateParkingLot(@PathVariable Long pbId, @PathVariable Long plId) {
         if(!parkingBoyRepository.findById(pbId).isPresent()|| !parkingLotRepository.findById(plId).isPresent()){
             return ResponseEntity.badRequest().build();
         }
         final ParkingLot parkingLot = parkingLotRepository.findById(plId).get();
         parkingLot.setParkingBoyId(pbId);
-        final ParkingLot savedParkingLot = parkingLotRepository.saveAndFlush(parkingLot);
+        parkingLotRepository.saveAndFlush(parkingLot);
         return ResponseEntity.created(URI.create("/parkingboys/" + pbId + "/parkinglots/" + plId)).build();
     }
 }
