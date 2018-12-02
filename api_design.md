@@ -47,3 +47,23 @@
     ```JSON
     {"employeeID": "string", "associatedParkingLots": [{"parkingLotId": "string"}]}
     ```
+
+----
+#### API(s) that irrelevant to story(s) and AC(s)
+1. Given: A ParkingBoy id "pbId": "number" which is stored in server
+
+    When: GET to /parkingboys/{pbId}
+    
+    Then: It should return status code 200 (OK) with the correpsonding parking boy
+    ```JSON
+    {"employeeId": "string"}
+    ```
+
+2. Given: A ParkingLot id "plId": "number" which is stored in server
+
+    When: GET to /parkinglots/{plId}
+    
+    Then: It should return status code 200 (OK) with the correpsonding parking lot
+    ```JSON
+    {"parkingLotId": "string", "availablePositionCount": "integer", "capacity": "integer(1-100)"}
+    ```

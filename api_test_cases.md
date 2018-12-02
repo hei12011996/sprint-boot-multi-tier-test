@@ -24,6 +24,22 @@
     []
     ```
 
+### Test case(s) for GET /parkingboys/{pbId}
+1.  Given: A parking boy id "pbId": "number" which can be referenced to an id of an existing record of parking boy in the server 
+
+    When: GET to /parkingboys/{pbId}
+    
+    Then: It should return status code 200 (OK) with the corresponding parking boy
+    ```JSON
+    {"employeeID": "string"}
+    ```
+
+2.  Given: A parking boy id "pbId": "number" which does not exist as an id of a parking boy in the server
+
+    When: GET to /parkingboys/{pbId}
+    
+    Then: It should return status code 404 (Not Found)
+
 ### Test Case(s) for POST /parkingboys
 1. Given: a ParkingBoy: {"employeeId": "string"}
 
@@ -86,6 +102,22 @@
     ```JSON
     []
     ```
+
+### Test case(s) for GET /parkingboys/{plId}
+1.  Given: A parking lot id "plId": "number" which can be referenced to an id of an existing record of parking lot in the server 
+
+    When: GET to /parkinglots/{plId}
+    
+    Then: It should return status code 200 (OK) with the corresponding parking lot
+    ```JSON
+    {"parkingLotId": "string", "availablePositionCount": "integer", "capacity": "integer(1-100)"}
+    ```
+
+2.  Given: A parking lot id "plId": "number" which does not exist as an id of a parking lot in the server
+
+    When: GET to /parkingboys/{plId}
+    
+    Then: It should return status code 404 (Not Found)
 
 ### Test Case(s) for POST /parkinglots
 1. Given: a ParkingLoy: {"parkingLotId": "string", "capacity": "integer(1-100)"}
@@ -152,7 +184,7 @@
     * return status code 400 (Bad Request)
 
 ### Test Case(s) for GET /parkingboys/{pbId}/parkinglots
-1.  Given: A ParkingBoy id "pbId": "number" which "pbId" can be referenced to the id of an existing record of parking boy in the server and that parking boy is managing one parking lot
+1.  Given: A ParkingBoy id "pbId": "number" which "pbId" can be referenced to an id of an existing record of parking boy in the server and that parking boy is managing one parking lot
 
     When: GET to /parkingboys/{pbId}/parkinglots
     
@@ -161,7 +193,7 @@
     {"employeeId": "string", "associatedParkingLots": [{"parkingLotId": "string"}]}
     ```
 
-2.  Given: A ParkingBoy id "pbId": "number" which "pbId" can be referenced to the id of an existing record of parking boy in the server and the parking boy is managing multiple parking lots
+2.  Given: A ParkingBoy id "pbId": "number" which "pbId" can be referenced to an id of an existing record of parking boy in the server and the parking boy is managing multiple parking lots
 
     When: GET to /parkingboys/{pbId}/parkinglots
     
@@ -170,16 +202,16 @@
     {"employeeId": "string", "associatedParkingLots": [{"parkingLotId": "string"}]}
     ```
 
-3.  Given: A ParkingBoy id "pbId": "number" which "pbId" can be referenced to the id of an existing record of parking boy in the server and the parking boy is managing zero parking lots
+3.  Given: A ParkingBoy id "pbId": "number" which "pbId" can be referenced to an id of an existing record of parking boy in the server and the parking boy is managing zero parking lots
 
     When: GET to /parkingboys/{pbId}/parkinglots
     
-    Then: It should return status code 200 (OK) with the "employeeId" of that parking boy and a list containing the "parkingLotId"s which is empty
+    Then: It should return status code 200 (OK) with the "employeeId" of that parking boy and a empty list containing the "parkingLotId"s
     ```JSON
     {"employeeId": "string", "associatedParkingLots": []}
     ```
 
-4.  Given: A ParkingBoy id "pbId": "number" which "pbId" does not exist for a id of a parking boy in the server
+4.  Given: A ParkingBoy id "pbId": "number" which "pbId" does not exist as an id of a parking boy in the server
 
     When: GET to /parkingboys/{pbId}/parkinglots
     
@@ -192,13 +224,13 @@
     
     Then: It should return status code 201 (Created)
 
-2.  Given: A ParkingBoy id "pbId": "number" and a ParkingLot id "plId": "number" where "pbId" does not exist for a id of a parking boy in the server
+2.  Given: A ParkingBoy id "pbId": "number" and a ParkingLot id "plId": "number" where "pbId" does not exist as an id of a parking boy in the server
 
     When: POST to /parkingboys/{pbId}/parkinglots/{plId}
     
     Then: It should return status code 400 (Bad Request)
 
-3.  Given: A ParkingBoy id "pbId": "number" and a ParkingLot id "plId": "number" where "plId" does not exist for a id of a parking lot in the server
+3.  Given: A ParkingBoy id "pbId": "number" and a ParkingLot id "plId": "number" where "plId" does not exist as an id of a parking lot in the server
 
     When: POST to /parkingboys/{pbId}/parkinglots/{plId}
     
