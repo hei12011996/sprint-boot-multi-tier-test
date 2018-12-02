@@ -6,7 +6,6 @@ import com.oocl.web.sampleWebApp.domain.ParkingLot;
 import com.oocl.web.sampleWebApp.domain.ParkingLotRepository;
 import com.oocl.web.sampleWebApp.models.ParkingBoyParkingLotsAssociationResponse;
 import com.oocl.web.sampleWebApp.models.ParkingBoyResponse;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -175,7 +174,7 @@ public class ParkingBoyResourceTest {
         final ParkingBoyParkingLotsAssociationResponse association = getContentAsObject(result, ParkingBoyParkingLotsAssociationResponse.class);
 
         assertEquals("TEST CASE 6 Parking Boy", association.getEmployeeId());
-        assertEquals("TEST CASE 6 Parking Lot 1", association.getAssociatedParkingLots().get(0));
+        assertEquals("TEST CASE 6 Parking Lot", association.getAssociatedParkingLots().get(0));
     }
 
     @Test
