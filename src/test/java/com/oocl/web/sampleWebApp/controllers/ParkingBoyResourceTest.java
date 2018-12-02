@@ -212,7 +212,7 @@ public class ParkingBoyResourceTest {
         final ParkingBoyParkingLotsAssociationResponse association = getContentAsObject(result, ParkingBoyParkingLotsAssociationResponse.class);
 
         assertEquals("TEST CASE 8 Parking Boy", association.getEmployeeId());
-        assertEquals("TEST CASE 8 Parking Lot", association.getAssociatedParkingLots().get(0));
+        assertEquals("TEST CASE 8 Parking Lot", association.getAssociatedParkingLots().get(0).getParkingLotId());
     }
 
     @Test
@@ -238,8 +238,8 @@ public class ParkingBoyResourceTest {
         final ParkingBoyParkingLotsAssociationResponse association = getContentAsObject(result, ParkingBoyParkingLotsAssociationResponse.class);
 
         assertEquals("TEST CASE 9 Parking Boy", association.getEmployeeId());
-        assertEquals("TEST CASE 9 Parking Lot 1", association.getAssociatedParkingLots().get(0));
-        assertEquals("TEST CASE 9 Parking Lot 2", association.getAssociatedParkingLots().get(1));
+        assertEquals("TEST CASE 9 Parking Lot 1", association.getAssociatedParkingLots().get(0).getParkingLotId());
+        assertEquals("TEST CASE 9 Parking Lot 2", association.getAssociatedParkingLots().get(1).getParkingLotId());
     }
 
     @Test

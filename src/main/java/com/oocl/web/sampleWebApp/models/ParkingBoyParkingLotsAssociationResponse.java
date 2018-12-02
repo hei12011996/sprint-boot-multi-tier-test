@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public class ParkingBoyParkingLotsAssociationResponse {
     private String employeeId;
-    private List<String> associatedParkingLots;
+    private List<ParkingLotAssociationResponse> associatedParkingLots;
 
-    private static ParkingBoyParkingLotsAssociationResponse create(String employeeId, List<String> associatedParkingLots) {
+    private static ParkingBoyParkingLotsAssociationResponse create(String employeeId, List<ParkingLotAssociationResponse> associatedParkingLots) {
         Objects.requireNonNull(employeeId);
         Objects.requireNonNull(associatedParkingLots);
 
@@ -23,19 +23,15 @@ public class ParkingBoyParkingLotsAssociationResponse {
     }
 
     public static ParkingBoyParkingLotsAssociationResponse create(ParkingBoy parkingBoy, List<ParkingLot> parkingLots) {
-        return create(parkingBoy.getEmployeeId(), parkingLots.stream().map(ParkingLot::getParkingLotId).collect(Collectors.toList()));
-    }
-
-    @JsonIgnore
-    public boolean isValid() {
-        return employeeId != null && associatedParkingLots != null;
+        List<ParkingLotAssociationResponse> associatedParkingLots = parkingLots.stream().map(ParkingLotAssociationResponse::create).collect(Collectors.toList());
+        return create(parkingBoy.getEmployeeId(), associatedParkingLots);
     }
 
     public String getEmployeeId() {
         return employeeId;
     }
 
-    public List<String> getAssociatedParkingLots() {
+    public List<ParkingLotAssociationResponse> getAssociatedParkingLots() {
         return associatedParkingLots;
     }
 
@@ -43,7 +39,7 @@ public class ParkingBoyParkingLotsAssociationResponse {
         this.employeeId = employeeId;
     }
 
-    private void setAssociatedParkingLots(List<String> associatedParkingLots) {
+    private void setAssociatedParkingLots(List<ParkingLotAssociationResponse> associatedParkingLots) {
         this.associatedParkingLots = associatedParkingLots;
     }
 }
