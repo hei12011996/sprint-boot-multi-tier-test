@@ -102,7 +102,7 @@ public class ParkingLotResourceTest {
     }
 
     @Test
-    public void should_save_parking_lot_given_a_parking_lot_with_unqiue_parking_lot_ID() throws Exception {
+    public void should_save_parking_lot_given_a_parking_lot_with_unique_parking_lot_ID() throws Exception {
         // Given
         final ParkingLot parkingLot = new ParkingLot("TEST CASE 4", 100);
         final String parkingLotJSONString = toJSON(parkingLot);
@@ -143,7 +143,7 @@ public class ParkingLotResourceTest {
                 .andReturn();
 
         // Then
-        assertEquals(400, result.getResponse().getStatus());
+        assertEquals(409, result.getResponse().getStatus());
 
         final List<ParkingLot> parkingLots = parkingLotRepository.findAll();
 

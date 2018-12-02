@@ -71,7 +71,6 @@ public class ParkingBoyResourceTest {
         parkingBoyRepository.save(new ParkingBoy("TEST CASE 2 Parking Boy 1"));
         parkingBoyRepository.save(new ParkingBoy("TEST CASE 2 Parking Boy 2"));
 
-
         // When
         final MvcResult result = mvc.perform(MockMvcRequestBuilders
                 .get("/parkingboys"))
@@ -104,7 +103,7 @@ public class ParkingBoyResourceTest {
     }
 
     @Test
-    public void should_save_parking_boy_given_a_parking_boy_with_unqiue_employeeID() throws Exception {
+    public void should_save_parking_boy_given_a_parking_boy_with_unique_employeeID() throws Exception {
         // Given
         final ParkingBoy parkingBoy = new ParkingBoy("TEST CASE 4");
         final String parkingBoyJSONString = toJSON(parkingBoy);
@@ -143,7 +142,7 @@ public class ParkingBoyResourceTest {
                 .andReturn();
 
         // Then
-        assertEquals(400, result.getResponse().getStatus());
+        assertEquals(409, result.getResponse().getStatus());
 
         final List<ParkingBoy> parkingBoys = parkingBoyRepository.findAll();
 
