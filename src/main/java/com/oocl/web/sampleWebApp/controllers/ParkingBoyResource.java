@@ -13,8 +13,12 @@ import java.net.URI;
 @RequestMapping("/parkingboys")
 public class ParkingBoyResource {
 
-    @Autowired
     private ParkingBoyRepository parkingBoyRepository;
+
+    @Autowired
+    public ParkingBoyResource(ParkingBoyRepository parkingBoyRepository){
+        this.parkingBoyRepository = parkingBoyRepository;
+    }
 
     @GetMapping
     public ResponseEntity<ParkingBoyResponse[]> getAll() {
