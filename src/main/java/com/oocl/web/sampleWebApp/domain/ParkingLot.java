@@ -1,5 +1,7 @@
 package com.oocl.web.sampleWebApp.domain;
 
+import org.springframework.util.StringUtils;
+
 import javax.persistence.*;
 
 @Entity
@@ -66,7 +68,7 @@ public class ParkingLot {
     }
 
     public Boolean isValid(){
-        return parkingLotId != null && capacity >= 1 && capacity <= 100;
+        return !StringUtils.isEmpty(parkingLotId) && capacity != null && capacity >= 1 && capacity <= 100;
     }
 }
 
