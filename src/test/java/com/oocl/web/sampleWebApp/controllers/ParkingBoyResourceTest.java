@@ -215,7 +215,7 @@ public class ParkingBoyResourceTest {
     @Test
     public void should_not_save_parking_boy_given_a_parking_boy_with_employee_id_length_exactly_equals_to_64() throws Exception {
         // Given
-        final ParkingBoy parkingBoy = new ParkingBoy("TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 !!!");
+        final ParkingBoy parkingBoy = new ParkingBoy("TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 !!!!");
         final String parkingBoyJSONString = toJSON(parkingBoy);
 
         // When
@@ -234,7 +234,7 @@ public class ParkingBoyResourceTest {
 
         final ParkingBoy parkingBoyRecord = parkingBoyRepository.findById(id).get();
 
-        assertEquals("TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 !!!", parkingBoyRecord.getEmployeeId());
+        assertEquals("TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 !!!!", parkingBoyRecord.getEmployeeId());
     }
 
 

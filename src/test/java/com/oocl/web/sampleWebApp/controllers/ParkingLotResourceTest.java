@@ -153,7 +153,7 @@ public class ParkingLotResourceTest {
     @Test
     public void should_save_parking_lot_given_a_parking_lot_with_parking_lot_ID_length_exactly_equals_to_64() throws Exception {
         // Given
-        final ParkingLot parkingLot = new ParkingLot("TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 !!!", 100);
+        final ParkingLot parkingLot = new ParkingLot("TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 !!!!", 100);
         final String parkingLotJSONString = toJSON(parkingLot);
 
         // When
@@ -172,7 +172,7 @@ public class ParkingLotResourceTest {
 
         final ParkingLot parkingLotRecord = parkingLotRepository.findById(id).get();
 
-        assertEquals("TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 !!!", parkingLotRecord.getParkingLotId());
+        assertEquals("TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 TEST CASE 6 !!!!", parkingLotRecord.getParkingLotId());
         assertEquals(new Integer(100), parkingLotRecord.getCapacity());
         assertEquals(new Integer(100), parkingLotRecord.getAvailablePositionCount());
     }
