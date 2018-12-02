@@ -76,7 +76,25 @@
     
     * not save the given parking boy
     * return status code 400 (Bad Request)
+
+5. Given a ParkingBoy: {"employeeId": "string"} which employeeId is a string which length longer than 64
+
+    When POST to /parkingboys
     
+    Then it should 
+    
+    * not save the given parking boy
+    * return status code 400 (Bad Request)
+
+6. Given a ParkingBoy: {"employeeId": "string"} which employeeId is a string which length exactly equals to 64
+
+    When POST to /parkingboys
+    
+    Then: it should 
+    
+    * save the given parking boy
+    * return status code 201 (Created)
+
 ### Test Case(s) for GET /parkinglots
 1.  Given: One parking lot record stored in database
 
@@ -182,6 +200,25 @@
     
     * not save the given parking lot
     * return status code 400 (Bad Request)
+
+8. Given a ParkingLot: {"parkingLotId": "string", "capacity": "integer(1-100)"} which parkingLotId is a string which length longer than 64
+
+    When POST to /parkinglot
+    
+    Then it should 
+    
+    * not save the given parking lot
+    * return status code 400 (Bad Request)
+
+9. Given a ParkingLot: {"parkingLotId": "string", "capacity": "integer(1-100)"} which parkingLotId is a string which length exactly equals to 64
+
+    When POST to /parkinglot
+    
+    Then it should 
+    
+    * save the given parking lot
+    * return status code 201 (Created)
+
 
 ### Test Case(s) for GET /parkingboys/{pbId}/parkinglots
 1.  Given: A ParkingBoy id "pbId": "number" which "pbId" can be referenced to an id of an existing record of parking boy in the server and that parking boy is managing one parking lot
