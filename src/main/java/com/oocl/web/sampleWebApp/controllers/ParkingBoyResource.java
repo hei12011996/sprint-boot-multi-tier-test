@@ -47,6 +47,9 @@ public class ParkingBoyResource {
         if(!parkingBoyRepository.findById(pbId).isPresent()|| !parkingLotRepository.findById(plId).isPresent()){
             return ResponseEntity.badRequest().build();
         }
-        return null;
+        final ParkingLot parkingLot = parkingLotRepository.findById(plId).get();
+        parkingLot.setParkingBoyId(pbId);
+        final ParkingLot savedParkingLot = parkingLotRepository.saveAndFlush(parkingLot);
+        return ResponseEntity.created(URI.create("/parkingboys/" + pbId + "/parkinglots/" + plId)).build();
     }
 }
