@@ -64,5 +64,9 @@ public class ParkingLot {
     public void setParkingBoyId(Long parkingBoyId) {
         this.parkingBoyId = parkingBoyId;
     }
+
+    public Boolean isValid(){
+        return parkingLotId != null && capacity >= 1 && capacity <= 100;
+    }
 }
 
