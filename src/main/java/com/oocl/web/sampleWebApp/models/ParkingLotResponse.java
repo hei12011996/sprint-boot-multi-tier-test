@@ -10,7 +10,7 @@ public class ParkingLotResponse {
     private Integer capacity;
     private Integer availablePositionCount;
 
-    public static ParkingLotResponse create(String parkingLotID, Integer capacity, Integer availablePositionCount) {
+    private static ParkingLotResponse create(String parkingLotID, Integer capacity, Integer availablePositionCount) {
         Objects.requireNonNull(parkingLotID);
         Objects.requireNonNull(capacity);
         Objects.requireNonNull(availablePositionCount);
@@ -43,15 +43,15 @@ public class ParkingLotResponse {
         return availablePositionCount;
     }
 
-    public void setParkingLotId(String parkingLotId) {
+    private void setParkingLotId(String parkingLotId) {
         this.parkingLotId = parkingLotId;
     }
 
-    public void setCapacity(Integer capacity) {
+    private void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
-    public void setAvailablePositionCount(Integer availablePositionCount) {
+    private void setAvailablePositionCount(Integer availablePositionCount) {
         this.availablePositionCount = availablePositionCount;
     }
 }

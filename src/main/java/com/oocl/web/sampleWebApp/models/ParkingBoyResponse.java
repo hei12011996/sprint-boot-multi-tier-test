@@ -12,11 +12,11 @@ public class ParkingBoyResponse {
         return employeeId;
     }
 
-    public void setEmployeeId(String employeeId) {
+    private void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
 
-    public static ParkingBoyResponse create(String employeeId) {
+    private static ParkingBoyResponse create(String employeeId) {
         Objects.requireNonNull(employeeId);
 
         final ParkingBoyResponse response = new ParkingBoyResponse();

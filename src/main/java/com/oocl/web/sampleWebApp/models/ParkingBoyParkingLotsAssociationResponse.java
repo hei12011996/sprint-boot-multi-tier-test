@@ -12,7 +12,7 @@ public class ParkingBoyParkingLotsAssociationResponse {
     private String employeeId;
     private List<String> associatedParkingLots;
 
-    public static ParkingBoyParkingLotsAssociationResponse create(String employeeId, List<String> associatedParkingLots) {
+    private static ParkingBoyParkingLotsAssociationResponse create(String employeeId, List<String> associatedParkingLots) {
         Objects.requireNonNull(employeeId);
         Objects.requireNonNull(associatedParkingLots);
 
