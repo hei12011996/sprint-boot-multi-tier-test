@@ -30,9 +30,10 @@ public class ParkingLotResource {
 
     @PostMapping
     public ResponseEntity<ParkingLotResponse> add(@RequestBody ParkingLot parkingLot) {
-        if(parkingLotRepository.findByParkingLotId(parkingLot.getParkingLotId()) != null){
+        if((!parkingLot.isValid()) || (parkingLotRepository.findByParkingLotId(parkingLot.getParkingLotId()) != null)){
             return ResponseEntity.badRequest().build();
         }
+        parkingLot.setAvailablePositionCount(parkingLot.getCapacity());
         final ParkingLot savedParkingLot = parkingLotRepository.saveAndFlush(parkingLot);
         return ResponseEntity.created(URI.create("/parkinglots/" + savedParkingLot.getId())).build();
     }
