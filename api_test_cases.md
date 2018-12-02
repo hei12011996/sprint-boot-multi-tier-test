@@ -1,11 +1,27 @@
 ### Test Case(s) for GET /parkingboys
-1.  Given: Parking boys record stored in database
+1.  Given: One parking boy record stored in database
+
+    When: GET to /parkingboys
+    
+    Then: It should return status code 200 (OK) with a list containing that parking boy in data base
+    ```JSON
+    [{"employeeID": "string"}]
+    ```
+2.  Given: Multiple parking boy records stored in database
 
     When: GET to /parkingboys
     
     Then: It should return status code 200 (OK) with a list containing all parking boys in data base
     ```JSON
     [{"employeeID": "string"}]
+    ```
+3.  Given: No parking boy record stored in database
+
+    When: GET to /parkingboys
+    
+    Then: It should return status code 200 (OK) with an empty list
+    ```JSON
+    []
     ```
 
 ### Test Case(s) for POST /parkingboys
@@ -46,13 +62,29 @@
     * return status code 400 (Bad Request)
     
 ### Test Case(s) for GET /parkinglots
-1.  Given: Parking lots record stored in database
+1.  Given: One parking lot record stored in database
+
+    When: GET to /parkinglots
+    
+    Then: It should return status code 200 (OK) with a list containing that parking lot in database
+    ```JSON
+    [{"parkingLotId": "string", "availablePositionCount": "integer", "capacity": "integer(1-100)"}]
+    ```
+2.  Given: Multiple parking lots record stored in database
 
     When: GET to /parkinglots
     
     Then: It should return status code 200 (OK) with a list containing all parking lots in database
     ```JSON
-    {"parkingLotId": "string", "availablePositionCount": "integer", "capacity": "integer(1-100)"}
+    [{"parkingLotId": "string", "availablePositionCount": "integer", "capacity": "integer(1-100)"}]
+    ```
+3.  Given: No parking lots record stored in database
+
+    When: GET to /parkinglots
+    
+    Then: It should return status code 200 (OK) with an empty list
+    ```JSON
+    []
     ```
 
 ### Test Case(s) for POST /parkinglots
