@@ -7,6 +7,7 @@ import com.oocl.web.sampleWebApp.domain.ParkingLotRepository;
 import com.oocl.web.sampleWebApp.models.ParkingBoyParkingLotsAssociationResponse;
 import com.oocl.web.sampleWebApp.models.ParkingBoyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +37,15 @@ public class ParkingBoyResource {
 
     @PostMapping
     public ResponseEntity<ParkingBoyResponse> add(@RequestBody ParkingBoy parkingBoy) {
-        if((!parkingBoy.isValid()) || (parkingBoyRepository.findByEmployeeId(parkingBoy.getEmployeeId()) != null)){
+        if (!parkingBoy.isValid()) {
             return ResponseEntity.badRequest().build();
+        }
+        final ParkingBoy conflictedParkingBoy = parkingBoyRepository.findByEmployeeId(parkingBoy.getEmployeeId());
+        if (conflictedParkingBoy != null) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .location(URI.create("/parkingboys/" + conflictedParkingBoy.getId()))
+                    .build();
         }
         final ParkingBoy savedParkingBoy = parkingBoyRepository.saveAndFlush(parkingBoy);
         return ResponseEntity.created(URI.create("/parkingboys/" + savedParkingBoy.getId())).build();

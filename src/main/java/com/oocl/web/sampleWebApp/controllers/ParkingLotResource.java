@@ -4,6 +4,7 @@ import com.oocl.web.sampleWebApp.domain.ParkingLot;
 import com.oocl.web.sampleWebApp.domain.ParkingLotRepository;
 import com.oocl.web.sampleWebApp.models.ParkingLotResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,15 @@ public class ParkingLotResource {
 
     @PostMapping
     public ResponseEntity<ParkingLotResponse> add(@RequestBody ParkingLot parkingLot) {
-        if((!parkingLot.isValid()) || (parkingLotRepository.findByParkingLotId(parkingLot.getParkingLotId()) != null)){
+        if (!parkingLot.isValid()) {
             return ResponseEntity.badRequest().build();
+        }
+        final ParkingLot conflictedParkingLot = parkingLotRepository.findByParkingLotId(parkingLot.getParkingLotId());
+        if (conflictedParkingLot != null) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .location(URI.create("/parkinglots/" + conflictedParkingLot.getId()))
+                    .build();
         }
         parkingLot.setAvailablePositionCount(parkingLot.getCapacity());
         final ParkingLot savedParkingLot = parkingLotRepository.saveAndFlush(parkingLot);
