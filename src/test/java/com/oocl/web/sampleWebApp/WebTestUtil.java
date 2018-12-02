@@ -22,12 +22,14 @@ public class WebTestUtil {
     }
 
     public static String toJSON(ParkingBoy parkingBoy){
-        return "{\"employeeId\": " + "\"" + parkingBoy.getEmployeeId() + "\"" + "}";
+        String employeeId = parkingBoy.getEmployeeId() == null ? "null" : "\"" + parkingBoy.getEmployeeId() +"\"";
+        return "{\"employeeId\": " + employeeId + "}";
     }
 
     public static String toJSON(ParkingLot parkingLot){
+        String parkingLotId = parkingLot.getParkingLotId() == null ? "null" : "\"" + parkingLot.getParkingLotId() +"\"";
         return "{" +
-                "\"parkingLotId\": " + "\"" + parkingLot.getParkingLotId() + "\"," +
+                "\"parkingLotId\": " + parkingLotId + "," +
                 "\"capacity\": " + parkingLot.getCapacity()+
                 "}";
     }

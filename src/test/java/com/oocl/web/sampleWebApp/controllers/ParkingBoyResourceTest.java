@@ -104,4 +104,46 @@ public class ParkingBoyResourceTest {
 
         assertEquals(1, parkingBoys.size());
     }
+
+    @Test
+    public void should_not_save_parking_boy_given_a_parking_boy_with_null_employee_id() throws Exception {
+        // Given
+        final ParkingBoy parkingBoy = new ParkingBoy(null);
+        final String parkingBoyJSONString = toJSON(parkingBoy);
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/parkingboys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingBoyJSONString))
+                .andReturn();
+
+        // Then
+        assertEquals(400, result.getResponse().getStatus());
+
+        final List<ParkingBoy> parkingBoys = parkingBoyRepository.findAll();
+
+        assertEquals(0, parkingBoys.size());
+    }
+
+    @Test
+    public void should_not_save_parking_boy_given_a_parking_boy_with_empty_employee_id() throws Exception {
+        // Given
+        final ParkingBoy parkingBoy = new ParkingBoy("");
+        final String parkingBoyJSONString = toJSON(parkingBoy);
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/parkingboys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingBoyJSONString))
+                .andReturn();
+
+        // Then
+        assertEquals(400, result.getResponse().getStatus());
+
+        final List<ParkingBoy> parkingBoys = parkingBoyRepository.findAll();
+
+        assertEquals(0, parkingBoys.size());
+    }
 }

@@ -111,7 +111,7 @@ public class ParkingLotResourceTest {
     @Test
     public void should_not_save_parking_lot_given_a_parking_lot_with_capacity_smaller_than_1() throws Exception {
         // Given
-        final ParkingLot parkingLot = new ParkingLot("TEST CASE 3", 0);
+        final ParkingLot parkingLot = new ParkingLot("TEST CASE 4", 0);
         final String parkingLotJSONString = toJSON(parkingLot);
 
         // When
@@ -132,7 +132,70 @@ public class ParkingLotResourceTest {
     @Test
     public void should_not_save_parking_lot_given_a_parking_lot_with_capacity_larger_than_100() throws Exception {
         // Given
-        final ParkingLot parkingLot = new ParkingLot("TEST CASE 3", 500);
+        final ParkingLot parkingLot = new ParkingLot("TEST CASE 5", 500);
+        final String parkingLotJSONString = toJSON(parkingLot);
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONString))
+                .andReturn();
+
+        // Then
+        assertEquals(400, result.getResponse().getStatus());
+
+        final List<ParkingLot> parkingLots = parkingLotRepository.findAll();
+
+        assertEquals(0, parkingLots.size());
+    }
+
+    @Test
+    public void should_not_save_parking_lot_given_a_parking_lot_with_capacity_is_null() throws Exception {
+        // Given
+        final ParkingLot parkingLot = new ParkingLot("TEST CASE 6", null);
+        final String parkingLotJSONString = toJSON(parkingLot);
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONString))
+                .andReturn();
+
+        // Then
+        assertEquals(400, result.getResponse().getStatus());
+
+        final List<ParkingLot> parkingLots = parkingLotRepository.findAll();
+
+        assertEquals(0, parkingLots.size());
+    }
+
+    @Test
+    public void should_not_save_parking_lot_given_a_parking_lot_with_parking_lot_id_is_null() throws Exception {
+        // Given
+        final ParkingLot parkingLot = new ParkingLot(null, 100);
+        final String parkingLotJSONString = toJSON(parkingLot);
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/parkinglots")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingLotJSONString))
+                .andReturn();
+
+        // Then
+        assertEquals(400, result.getResponse().getStatus());
+
+        final List<ParkingLot> parkingLots = parkingLotRepository.findAll();
+
+        assertEquals(0, parkingLots.size());
+    }
+
+    @Test
+    public void should_not_save_parking_lot_given_a_parking_lot_with_parking_lot_id_is_a_empty_string() throws Exception {
+        // Given
+        final ParkingLot parkingLot = new ParkingLot("", 100);
         final String parkingLotJSONString = toJSON(parkingLot);
 
         // When
