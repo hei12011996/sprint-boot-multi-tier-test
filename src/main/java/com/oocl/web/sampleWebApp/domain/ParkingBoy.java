@@ -33,7 +33,7 @@ public class ParkingBoy {
     }
 
     public boolean isValid() {
-        return !StringUtils.isEmpty(employeeId);
+        return !StringUtils.isEmpty(employeeId) && employeeId.length() < 65;
     }
 }
 
