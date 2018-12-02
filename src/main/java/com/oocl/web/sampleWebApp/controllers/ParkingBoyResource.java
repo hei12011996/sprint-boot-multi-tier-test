@@ -2,6 +2,9 @@ package com.oocl.web.sampleWebApp.controllers;
 
 import com.oocl.web.sampleWebApp.domain.ParkingBoy;
 import com.oocl.web.sampleWebApp.domain.ParkingBoyRepository;
+import com.oocl.web.sampleWebApp.domain.ParkingLot;
+import com.oocl.web.sampleWebApp.domain.ParkingLotRepository;
+import com.oocl.web.sampleWebApp.models.ParkingBoyParkingLotsAssociationResponse;
 import com.oocl.web.sampleWebApp.models.ParkingBoyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +17,12 @@ import java.net.URI;
 public class ParkingBoyResource {
 
     private ParkingBoyRepository parkingBoyRepository;
+    private ParkingLotRepository parkingLotRepository;
 
     @Autowired
-    public ParkingBoyResource(ParkingBoyRepository parkingBoyRepository){
+    public ParkingBoyResource(ParkingBoyRepository parkingBoyRepository, ParkingLotRepository parkingLotRepository){
         this.parkingBoyRepository = parkingBoyRepository;
+        this.parkingLotRepository = parkingLotRepository;
     }
 
     @GetMapping
@@ -35,5 +40,13 @@ public class ParkingBoyResource {
         }
         final ParkingBoy savedParkingBoy = parkingBoyRepository.saveAndFlush(parkingBoy);
         return ResponseEntity.created(URI.create("/parkingboys/" + savedParkingBoy.getId())).build();
+    }
+
+    @PostMapping(path = "/{pbId}/parkinglots/{plId}")
+    public ResponseEntity<ParkingBoyResponse> associateParkingLot(@PathVariable Long pbId, @PathVariable Long plId) {
+        if(!parkingBoyRepository.findById(pbId).isPresent()|| !parkingLotRepository.findById(plId).isPresent()){
+            return ResponseEntity.badRequest().build();
+        }
+        return null;
     }
 }
