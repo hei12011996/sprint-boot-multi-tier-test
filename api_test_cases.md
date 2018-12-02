@@ -34,11 +34,11 @@
     
     Then: It should return status code 200 (OK) with a list containing all parking lotss in database
     ```JSON
-    {"parkingLotID": "string", "availablePositionCount": "integer", "capacity": "integer(1-100)"}
+    {"parkingLotId": "string", "availablePositionCount": "integer", "capacity": "integer(1-100)"}
     ```
 
 ### Test Case(s) for POST /parkinglots
-1. Given: a ParkingLoy: {"parkingLotID": "string", "capacity": "integer(1-100)"}
+1. Given: a ParkingLoy: {"parkingLotId": "string", "capacity": "integer(1-100)"}
 
     When: POST to /parkinglots
     
@@ -47,7 +47,7 @@
     * save the given parking lot
     * return status code 201 (Created)
 
-2. Given a ParkingLot: {"parkingLotID": "string", "capacity": "integer(1-100)"} which "parkingLotID" is repeated with other record in server
+2. Given a ParkingLot: {"parkingLotId": "string", "capacity": "integer(1-100)"} which "parkingLotId" is repeated with other record in server
 
     When POST to /parkinglots
     
@@ -56,7 +56,7 @@
     * not save the given parking lot
     * return status code 400 (Bad Request)
 
-3. Given a ParkingLot: {"parkingLotID": "string", "capacity": "integer(1-100)"} which "capacity" smaller than 1
+3. Given a ParkingLot: {"parkingLotId": "string", "capacity": "integer(1-100)"} which "capacity" smaller than 1
 
     When POST to /parkinglots
     
@@ -65,7 +65,7 @@
     * not save the given parking lot
     * return status code 400 (Bad Request)
 
-4. Given a ParkingLot: {"parkingLotID": "string", "capacity": "integer(1-100)"} which "capacity" larger than 100
+4. Given a ParkingLot: {"parkingLotId": "string", "capacity": "integer(1-100)"} which "capacity" larger than 100
 
     When POST to /parkinglots
     
