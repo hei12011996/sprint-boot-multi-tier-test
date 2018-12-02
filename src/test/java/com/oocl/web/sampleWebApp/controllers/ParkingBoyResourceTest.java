@@ -192,11 +192,58 @@ public class ParkingBoyResourceTest {
     }
 
     @Test
+    public void should_not_save_parking_boy_given_a_parking_boy_with_long_employee_id() throws Exception {
+        // Given
+        final ParkingBoy parkingBoy = new ParkingBoy("TEST CASE 8 TEST CASE 8 TEST CASE 8 TEST CASE 8 TEST CASE 8 TEST CASE 8 TEST CASE 8 TEST CASE 8 TEST CASE 8 TEST CASE 8");
+        final String parkingBoyJSONString = toJSON(parkingBoy);
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/parkingboys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingBoyJSONString))
+                .andReturn();
+
+        // Then
+        assertEquals(400, result.getResponse().getStatus());
+
+        final List<ParkingBoy> parkingBoys = parkingBoyRepository.findAll();
+
+        assertEquals(0, parkingBoys.size());
+    }
+
+    @Test
+    public void should_not_save_parking_boy_given_a_parking_boy_with_employee_id_length_exactly_equals_to_64() throws Exception {
+        // Given
+        final ParkingBoy parkingBoy = new ParkingBoy("TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 !!!");
+        final String parkingBoyJSONString = toJSON(parkingBoy);
+
+        // When
+        final MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/parkingboys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parkingBoyJSONString))
+                .andReturn();
+
+        // Then
+        String location = result.getResponse().getHeader("location");
+        final Long id = parseIdFromLocation(location, "/parkingboys/");
+
+        assertEquals(201, result.getResponse().getStatus());
+        assertTrue(location.contains("/parkingboys/"));
+
+        final ParkingBoy parkingBoyRecord = parkingBoyRepository.findById(id).get();
+
+        assertEquals("TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 TEST CASE 9 !!!", parkingBoyRecord.getEmployeeId());
+    }
+
+
+    @Test
     public void should_get_parking_boy_parking_lots_association_with_its_managing_parking_lot_id() throws Exception {
         // Given
-        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 8 Parking Boy"));
+        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 10 Parking Boy"));
         final Long pbId = boy.getId();
-        final ParkingLot lot = new ParkingLot("TEST CASE 8 Parking Lot", 100);
+        final ParkingLot lot = new ParkingLot("TEST CASE 10 Parking Lot", 100);
         lot.setParkingBoyId(pbId);
         parkingLotRepository.saveAndFlush(lot);
 
@@ -210,18 +257,18 @@ public class ParkingBoyResourceTest {
 
         final ParkingBoyParkingLotsAssociationResponse association = getContentAsObject(result, ParkingBoyParkingLotsAssociationResponse.class);
 
-        assertEquals("TEST CASE 8 Parking Boy", association.getEmployeeId());
-        assertEquals("TEST CASE 8 Parking Lot", association.getAssociatedParkingLots().get(0).getParkingLotId());
+        assertEquals("TEST CASE 10 Parking Boy", association.getEmployeeId());
+        assertEquals("TEST CASE 10 Parking Lot", association.getAssociatedParkingLots().get(0).getParkingLotId());
     }
 
     @Test
     public void should_get_parking_boy_parking_lots_association_with_multiple_parking_lot_id() throws Exception {
         // Given
-        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 9 Parking Boy"));
+        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 11 Parking Boy"));
         final Long pbId = boy.getId();
-        final ParkingLot lot_1 = new ParkingLot("TEST CASE 9 Parking Lot 1", 100);
+        final ParkingLot lot_1 = new ParkingLot("TEST CASE 11 Parking Lot 1", 100);
         lot_1.setParkingBoyId(pbId);
-        final ParkingLot lot_2 = new ParkingLot("TEST CASE 9 Parking Lot 2", 100);
+        final ParkingLot lot_2 = new ParkingLot("TEST CASE 11 Parking Lot 2", 100);
         lot_2.setParkingBoyId(pbId);
         parkingLotRepository.save(lot_1);
         parkingLotRepository.saveAndFlush(lot_2);
@@ -236,15 +283,15 @@ public class ParkingBoyResourceTest {
 
         final ParkingBoyParkingLotsAssociationResponse association = getContentAsObject(result, ParkingBoyParkingLotsAssociationResponse.class);
 
-        assertEquals("TEST CASE 9 Parking Boy", association.getEmployeeId());
-        assertEquals("TEST CASE 9 Parking Lot 1", association.getAssociatedParkingLots().get(0).getParkingLotId());
-        assertEquals("TEST CASE 9 Parking Lot 2", association.getAssociatedParkingLots().get(1).getParkingLotId());
+        assertEquals("TEST CASE 11 Parking Boy", association.getEmployeeId());
+        assertEquals("TEST CASE 11 Parking Lot 1", association.getAssociatedParkingLots().get(0).getParkingLotId());
+        assertEquals("TEST CASE 11 Parking Lot 2", association.getAssociatedParkingLots().get(1).getParkingLotId());
     }
 
     @Test
     public void should_get_parking_boy_parking_lots_association_with_zero_parking_lot_id() throws Exception {
         // Given
-        final ParkingBoy boy = parkingBoyRepository.saveAndFlush(new ParkingBoy("TEST CASE 10 Parking Boy"));
+        final ParkingBoy boy = parkingBoyRepository.saveAndFlush(new ParkingBoy("TEST CASE 12 Parking Boy"));
         final Long pbId = boy.getId();
 
         // When
@@ -257,7 +304,7 @@ public class ParkingBoyResourceTest {
 
         final ParkingBoyParkingLotsAssociationResponse association = getContentAsObject(result, ParkingBoyParkingLotsAssociationResponse.class);
 
-        assertEquals("TEST CASE 10 Parking Boy", association.getEmployeeId());
+        assertEquals("TEST CASE 12 Parking Boy", association.getEmployeeId());
         assertTrue(association.getAssociatedParkingLots().isEmpty());
     }
     @Test
@@ -277,9 +324,9 @@ public class ParkingBoyResourceTest {
     @Test
     public void should_save_parking_boy_parking_lots_association() throws Exception {
         // Given
-        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 12 Parking Boy"));
+        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 14 Parking Boy"));
         final Long pbId = boy.getId();
-        final ParkingLot lot = parkingLotRepository.save(new ParkingLot("TEST CASE 12 Parking Lot", 100));
+        final ParkingLot lot = parkingLotRepository.save(new ParkingLot("TEST CASE 14 Parking Lot", 100));
         final Long plId = lot.getId();
 
         // When
@@ -293,7 +340,7 @@ public class ParkingBoyResourceTest {
         assertEquals(201, result.getResponse().getStatus());
         assertTrue(location.contains("/parkingboys/"));
 
-        final ParkingLot updatedParkingLot = parkingLotRepository.findByParkingLotId("TEST CASE 12 Parking Lot");
+        final ParkingLot updatedParkingLot = parkingLotRepository.findByParkingLotId("TEST CASE 14 Parking Lot");
 
         assertEquals(pbId, updatedParkingLot.getParkingBoyId());
     }
@@ -302,7 +349,7 @@ public class ParkingBoyResourceTest {
     public void should_not_save_parking_boy_parking_lots_association_given_none_existing_parking_boy_id() throws Exception {
         // Given
         final Long pbId = 0L;
-        final ParkingLot lot = parkingLotRepository.save(new ParkingLot("TEST CASE 13 Parking Lot", 100));
+        final ParkingLot lot = parkingLotRepository.save(new ParkingLot("TEST CASE 15 Parking Lot", 100));
         final Long plId = lot.getId();
 
         // When
@@ -317,7 +364,7 @@ public class ParkingBoyResourceTest {
     @Test
     public void should_not_save_parking_boy_parking_lots_association_given_none_existing_parking_lot_id() throws Exception {
         // Given
-        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 14 Parking Boy"));
+        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 16 Parking Boy"));
         final Long pbId = boy.getId();
         final Long plId = 0L;
 
@@ -333,7 +380,7 @@ public class ParkingBoyResourceTest {
     @Test
     public void should_get_parking_boy_by_its_id() throws Exception {
         // Given
-        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 15"));
+        final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("TEST CASE 17"));
         final Long pbId = boy.getId();
 
         // When
@@ -346,7 +393,7 @@ public class ParkingBoyResourceTest {
 
         final ParkingBoyResponse parkingBoy = getContentAsObject(result, ParkingBoyResponse.class);
 
-        assertEquals("TEST CASE 15", parkingBoy.getEmployeeId());
+        assertEquals("TEST CASE 17", parkingBoy.getEmployeeId());
     }
 
     @Test
