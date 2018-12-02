@@ -41,7 +41,7 @@
     Then it should 
     
     * not save the given parking boy
-    * return status code 400 (Bad Request)
+    * return status code 409 (Conflict)
 
 3. Given a ParkingBoy: {"employeeId": null} which employeeId is null
 
@@ -104,7 +104,7 @@
     Then it should 
     
     * not save the given parking lot
-    * return status code 400 (Bad Request)
+    * return status code 409 (Conflict)
 
 3. Given a ParkingLot: {"parkingLotId": "string", "capacity": "integer(1-100)"} which "capacity" smaller than 1
 
