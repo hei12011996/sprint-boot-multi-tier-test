@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/parkingboys")
@@ -33,6 +34,16 @@ public class ParkingBoyResource {
             .map(ParkingBoyResponse::create)
             .toArray(ParkingBoyResponse[]::new);
         return ResponseEntity.ok(parkingBoys);
+    }
+
+    @GetMapping(path = "/{pbId}")
+    public ResponseEntity<ParkingBoyResponse> get(@PathVariable Long pbId) {
+        final Optional<ParkingBoy> parkingBoyRecord = parkingBoyRepository.findById(pbId);
+        if(!parkingBoyRecord.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        final ParkingBoyResponse parkingBoy = ParkingBoyResponse.create(parkingBoyRecord.get());
+        return ResponseEntity.ok(parkingBoy);
     }
 
     @PostMapping
